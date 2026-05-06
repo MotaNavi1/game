@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>OBS Audio Player</title>
+    <style>
+        body { background-color: transparent; margin: 0; }
+        audio { display: none; }
+    </style>
+</head>
+<body>
+    <audio autoplay loop id="player">
+        <source src="" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // Ваш ID файла
+        const FILE_ID = "1xXosTx0bwTlVJrNfKPM8CcacifEu3P1C";
+        
+        // Пытаемся получить файл в обход предупреждения Google
+        fetch(`https://drive.usercontent.google.com/download?id=${FILE_ID}&confirm=t`)
+            .then(response => response.blob())
+            .then(blob => {
+                const url = URL.createObjectURL(blob);
+                const audio = document.getElementById('player');
+                audio.src = url;
+                audio.play().catch(e => console.log('Автовоспроизведение заблокировано:', e));
+            })
+            .catch(error => console.error('Ошибка загрузки:', error));
+    </script>
+</body>
+</html>
